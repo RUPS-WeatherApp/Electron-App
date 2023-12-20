@@ -31,6 +31,22 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
+ipcMain.on('location', async (event, arg) => {
+  //console.log(arg);
+  // make object with navigator.postition.latitude and navigator.position.longitude
+  
+  const sampleNavigator = {
+    geolocation: {
+      latitude: 46.5580476,
+      longitude: 15.6382873,
+    }
+  };
+
+  event.reply('location', sampleNavigator);
+
+  // event.reply('location', "user location data");
+});
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -74,6 +90,7 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     icon: getAssetPath('icon.png'),
+    autoHideMenuBar: true,
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
@@ -98,6 +115,8 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
+  mainWindow.webContents.send('request-location');
+
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
@@ -109,7 +128,7 @@ const createWindow = async () => {
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-  new AppUpdater();
+  // new AppUpdater();
 };
 
 /**

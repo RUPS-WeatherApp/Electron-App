@@ -1,4 +1,4 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
 
@@ -20,6 +20,8 @@ function Hello() {
               📚
             </span>
             Read our docs
+            <Link to="/">Home</Link>
+            <Link to="/other">Other</Link>
           </button>
         </a>
         <a
